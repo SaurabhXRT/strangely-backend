@@ -18,11 +18,11 @@ export const AuthController = async (req: any, res: any) => {
             process.env.JWT_SECRET as string, 
             { expiresIn: "30d" } 
         );
-
+        const newuser =  user.toJSON();
         return res.status(200).json({
             message: "User authenticated successfully",
             token,
-            user: { id: user.id, username: user.username },
+            user: { id: newuser.id, username: newuser.username },
         });
 
     } catch (error) {

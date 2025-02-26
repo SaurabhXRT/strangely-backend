@@ -127,7 +127,7 @@ import { User } from "../../models/User/User.js";
 import jwt from "jsonwebtoken";
 export var AuthController = /*#__PURE__*/ function() {
     var _ref = _async_to_generator(function(req, res) {
-        var username, user, token, error;
+        var username, user, token, newuser, error;
         return _ts_generator(this, function(_state) {
             switch(_state.label){
                 case 0:
@@ -168,14 +168,15 @@ export var AuthController = /*#__PURE__*/ function() {
                     }, process.env.JWT_SECRET, {
                         expiresIn: "30d"
                     });
+                    newuser = user.toJSON();
                     return [
                         2,
                         res.status(200).json({
                             message: "User authenticated successfully",
                             token: token,
                             user: {
-                                id: user.id,
-                                username: user.username
+                                id: newuser.id,
+                                username: newuser.username
                             }
                         })
                     ];
