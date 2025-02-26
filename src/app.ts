@@ -9,15 +9,9 @@ const server = express();
 server.use(bodyParser.json());
 server.use(bodyParser.urlencoded({ extended: true }));
 server.use(express.json());
-server.use(
-  cors({
-    origin: process.env.CORS_WHITELISTED,
-    methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE", "OPTIONS"],
-  })
-);
+server.use(cors());
 
 server.use("/v1", characterRoutes);
-
 
 process.on("uncaughtException", (err) => {
   logger.error("An error occured which was not caught");
