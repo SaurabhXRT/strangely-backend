@@ -11,5 +11,5 @@ router.get("/getchathistory/:character_id", authMiddleware, getChatHistoryContro
 router.get("/getuserallchat", authMiddleware, getUserAllChatController);
 router.post("/createuser", AuthController);
 router.post("/deleteuserchat", AuthController, DeleteUserChatController);
-router.get("/validateusername", checkUsernameAvailability);
+router.post("/validateusername", checkUsernameAvailability);
 export default router;
