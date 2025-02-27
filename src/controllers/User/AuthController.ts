@@ -12,13 +12,12 @@ export const AuthController = async (req: any, res: any) => {
         if (!user) {
             user = await User.create({ username });
         }
-        
+        const newuser =  user.toJSON();
         const token = jwt.sign(
-            { user_id: user.id, username: user.username }, 
+            { user_id: newuser.id}, 
             process.env.JWT_SECRET as string, 
             { expiresIn: "30d" } 
         );
-        const newuser =  user.toJSON();
         return res.status(200).json({
             message: "User authenticated successfully",
             token,

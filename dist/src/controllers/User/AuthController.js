@@ -127,7 +127,7 @@ import { User } from "../../models/User/User.js";
 import jwt from "jsonwebtoken";
 export var AuthController = /*#__PURE__*/ function() {
     var _ref = _async_to_generator(function(req, res) {
-        var username, user, token, newuser, error;
+        var username, user, newuser, token, error;
         return _ts_generator(this, function(_state) {
             switch(_state.label){
                 case 0:
@@ -162,13 +162,12 @@ export var AuthController = /*#__PURE__*/ function() {
                     user = _state.sent();
                     _state.label = 3;
                 case 3:
+                    newuser = user.toJSON();
                     token = jwt.sign({
-                        user_id: user.id,
-                        username: user.username
+                        user_id: newuser.id
                     }, process.env.JWT_SECRET, {
                         expiresIn: "30d"
                     });
-                    newuser = user.toJSON();
                     return [
                         2,
                         res.status(200).json({

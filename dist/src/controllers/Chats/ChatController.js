@@ -131,14 +131,17 @@ export var createChatController = /*#__PURE__*/ function() {
         return _ts_generator(this, function(_state) {
             switch(_state.label){
                 case 0:
+                    console.log(req.user);
+                    _state.label = 1;
+                case 1:
                     _state.trys.push([
-                        0,
-                        2,
+                        1,
+                        3,
                         ,
-                        3
+                        4
                     ]);
                     data = {
-                        user_id: req.user.userid,
+                        user_id: req.user.user_id,
                         character_id: req.params.character_id,
                         message: req.body.message
                     };
@@ -146,7 +149,7 @@ export var createChatController = /*#__PURE__*/ function() {
                         4,
                         chatservice.createChat(data)
                     ];
-                case 1:
+                case 2:
                     response = _state.sent();
                     return [
                         2,
@@ -155,7 +158,7 @@ export var createChatController = /*#__PURE__*/ function() {
                             data: response
                         })
                     ];
-                case 2:
+                case 3:
                     error = _state.sent();
                     logger.log(error);
                     return [
@@ -164,7 +167,7 @@ export var createChatController = /*#__PURE__*/ function() {
                             message: 'Internal Server Error'
                         })
                     ];
-                case 3:
+                case 4:
                     return [
                         2
                     ];

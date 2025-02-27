@@ -2,9 +2,11 @@ import logger from "../../logger/logger.js";
 import { ChatService } from "../../services/ChatService.js";
 const chatservice = new ChatService();
 export const createChatController = async(req:any,res:any) => {
+    console.log(req.user)
     try{
         const data = {
-            user_id: req.user.userid,
+            user_id: req.user.user_id,
+
             character_id: req.params.character_id,
             message: req.body.message
         }
