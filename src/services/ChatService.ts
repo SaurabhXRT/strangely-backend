@@ -88,7 +88,6 @@ export class ChatService {
     try {
       const chatsHistory: IChat[] = await Chats.findAll({
         where: { user_id, character_id },
-        order: [["createdAt", "DESC"]],
       });
       const allchathistory = chatsHistory.map((it) => it.toJSON())
       const response = allchathistory.map((it) => ({

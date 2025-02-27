@@ -341,13 +341,7 @@ export var ChatService = /*#__PURE__*/ function() {
                                         where: {
                                             user_id: user_id,
                                             character_id: character_id
-                                        },
-                                        order: [
-                                            [
-                                                "createdAt",
-                                                "DESC"
-                                            ]
-                                        ]
+                                        }
                                     })
                                 ];
                             case 1:
