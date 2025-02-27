@@ -191,12 +191,13 @@ export var getChatHistoryController = /*#__PURE__*/ function() {
                         3
                     ]);
                     data = {
-                        user_id: req.user.userid,
+                        user_id: req.user.user_id,
                         character_id: req.params.character_id
                     };
+                    console.log(data);
                     return [
                         4,
-                        chatservice.getChatHistory(data.character_id, data.user_id)
+                        chatservice.getChatHistory(data.user_id, data.character_id)
                     ];
                 case 1:
                     response = _state.sent();

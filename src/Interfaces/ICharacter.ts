@@ -1,4 +1,5 @@
 export interface ICharacter {
+    toJSON(): any;
     id: number;
     name: string;
     character_image: string;

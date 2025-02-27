@@ -27,11 +27,12 @@ export const createChatController = async(req:any,res:any) => {
 export const getChatHistoryController = async(req:any,res:any) => {
     try{
         const data = {
-            user_id: req.user.userid,
+            user_id: req.user.user_id,
             character_id: req.params.character_id
         }
+        console.log(data);
 
-        const response = await chatservice.getChatHistory(data.character_id,data.user_id);
+        const response = await chatservice.getChatHistory(data.user_id,data.character_id);
         return res.status(200).json({
             message: "chat history gfetched",
             data: response

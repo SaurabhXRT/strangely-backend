@@ -200,8 +200,12 @@ import { MistralService } from "./AIService/MistralService.js";
 import { EncryptDecryptService } from "./EncryptDecryptService.js";
 var airesponseservice = new MistralService();
 var encryptdecryptservice = new EncryptDecryptService();
-var encrypt = encryptdecryptservice.encrypt;
-var decrypt = encryptdecryptservice.decrypt;
+var encrypt = function(text) {
+    return encryptdecryptservice.encrypt(text);
+};
+var decrypt = function(text) {
+    return encryptdecryptservice.decrypt(text);
+};
 export var ChatService = /*#__PURE__*/ function() {
     "use strict";
     function ChatService() {
@@ -212,7 +216,7 @@ export var ChatService = /*#__PURE__*/ function() {
             key: "createChat",
             value: function createChat(data) {
                 return _async_to_generator(function() {
-                    var user_id, character_id, message, character, chatHistory, messages, response, error;
+                    var user_id, character_id, message, characterabc, character, chatsHistory, chatHistory, messages, response, error;
                     return _ts_generator(this, function(_state) {
                         switch(_state.label){
                             case 0:
@@ -228,7 +232,8 @@ export var ChatService = /*#__PURE__*/ function() {
                                     Character.findByPk(character_id)
                                 ];
                             case 1:
-                                character = _state.sent();
+                                characterabc = _state.sent();
+                                character = characterabc.toJSON();
                                 if (!character) {
                                     logger.error("Character not found");
                                     return [
@@ -253,23 +258,28 @@ export var ChatService = /*#__PURE__*/ function() {
                                     })
                                 ];
                             case 2:
-                                chatHistory = _state.sent();
+                                chatsHistory = _state.sent();
+                                chatHistory = chatsHistory.map(function(it) {
+                                    return it.toJSON();
+                                });
                                 messages = [
                                     {
                                         role: "system",
-                                        content: "You are ".concat(character.name, ". Your personality: ").concat(character.character_bio)
+                                        content: "Your character name is ".concat(character.name, ". reply with only 2 or 3 sentence with proper grametically correct sentence and Your personality: ").concat(character.description)
                                     }
                                 ];
-                                chatHistory.reverse().forEach(function(chat) {
-                                    messages.push({
-                                        role: "user",
-                                        content: decrypt(chat.user_message)
+                                if (chatHistory.length > 0) {
+                                    chatHistory.reverse().forEach(function(chat) {
+                                        messages.push({
+                                            role: "user",
+                                            content: decrypt(chat.user_message)
+                                        });
+                                        messages.push({
+                                            role: "assistant",
+                                            content: decrypt(chat.character_response)
+                                        });
                                     });
-                                    messages.push({
-                                        role: "assistant",
-                                        content: decrypt(chat.character_response)
-                                    });
-                                });
+                                }
                                 messages.push({
                                     role: "user",
                                     content: message
@@ -315,7 +325,7 @@ export var ChatService = /*#__PURE__*/ function() {
             key: "getChatHistory",
             value: function getChatHistory(user_id, character_id) {
                 return _async_to_generator(function() {
-                    var chatHistory, response, error;
+                    var chatsHistory, allchathistory, response, error;
                     return _ts_generator(this, function(_state) {
                         switch(_state.label){
                             case 0:
@@ -331,13 +341,22 @@ export var ChatService = /*#__PURE__*/ function() {
                                         where: {
                                             user_id: user_id,
                                             character_id: character_id
-                                        }
+                                        },
+                                        order: [
+                                            [
+                                                "createdAt",
+                                                "DESC"
+                                            ]
+                                        ]
                                     })
                                 ];
                             case 1:
-                                chatHistory = _state.sent();
-                                response = chatHistory.map(function(it) {
-                                    return _object_spread_props(_object_spread({}, it.toJSON()), {
+                                chatsHistory = _state.sent();
+                                allchathistory = chatsHistory.map(function(it) {
+                                    return it.toJSON();
+                                });
+                                response = allchathistory.map(function(it) {
+                                    return _object_spread_props(_object_spread({}, it), {
                                         user_message: decrypt(it.user_message),
                                         character_response: decrypt(it.character_response)
                                     });
